@@ -3,5 +3,45 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "modelMock": {
+
+      "projectType": "library",
+      "root": "projects/model-mock",
+      "sourceRoot": "projects/model-mock/src",
+      "prefix": "lib",
+      "architect": {
+    
+        "build": {
+        
+    
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {    
+            "project": "projects/model-mock/ng-package.json",
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/model-mock/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/model-mock/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/model-mock/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "7001ad40-018e-44a8-86e2-24401bb7005a"
   }
 }
