@@ -15,6 +15,8 @@ export class ModelMock<T extends Record<string, any>> {
     private streets: string[] = []; // Array to store streets fetched from JSON
     private address: string[] = []; // Array to store addresses fetched from JSON
     private cities : string[] = []; // Predefined array of cities
+    private sex : string[]=['f','m'];
+    private credit_card : string[]=[];
 
     http = inject(HttpClient); // Injecting HttpClient for HTTP requests
 
@@ -38,18 +40,20 @@ export class ModelMock<T extends Record<string, any>> {
             address: this.http.get<string[]>('assets/data/adress.json'),
             cities: this.http.get<string[]>('assets/data/city.json'),
             streets: this.http.get<string[]>('assets/data/street.json'), 
+            credit_card : this.http.get<string[]>('assets/data/creditcard.json'), 
         }).subscribe({
             next :(data)=>{
                     this.names = data.names;
                     this.cities = data.cities;
                     this.address = data.address;
                     this.streets = data.streets;
+                    this.credit_card=data.credit_card;
                 
             },
             error :(error)=>{
 
                 if (error.status === 404) {
-                    console.error('Error 404: file(s) not found. Please place the json files in the assets folder ! ', error);
+                    console.error('Error 404: file(s) not found. Please place the json files in the assets folder and in subfolder "Data" ! ', error);
                 } else {
                     console.error('Error while loading Data', error);
                 }
@@ -88,12 +92,18 @@ export class ModelMock<T extends Record<string, any>> {
 
     /**
      * Generates a random number between the specified minimum and maximum values.
-     * 
+     * @param key -The key to determine the type of random string to generate
      * @param min - The minimum value (inclusive).
      * @param max - The maximum value (inclusive).
      * @returns number - A randomly generated number.
      */
-    protected createNumberRand(min: number = 0, max: number = 100000): number {
+    protected createNumberRand(key : string,min: number = 0, max: number = 100000): number {
+        
+        if(key.toLowerCase().includes('age')){
+            max=99;
+            min=10;
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
@@ -126,15 +136,24 @@ export class ModelMock<T extends Record<string, any>> {
             return this.getRandomFromArray(this.names);
         } else 
         if (key.toLowerCase().includes("street")) {
-            return `${this.createNumberRand(1, 999)} ${this.getRandomFromArray(this.streets)}`;
+            return `${this.getRandomFromArray(this.streets)}`;
         } else 
-        if (key.toLowerCase().includes("address")) {
-            return `${this.createNumberRand(1, 999)} ${this.getRandomFromArray(this.address)}`;
+        if (key.toLowerCase().includes("address") || key.toLowerCase().includes("adress")) {
+            return `${this.getRandomFromArray(this.address)}`;
         } else 
         if (key.toLowerCase().includes("city") || key.toLowerCase().includes("ville")) {
             return this.getRandomFromArray(this.cities);
         }
-        return `RandomData${this.createNumberRand(1, 100)}`;
+        if (key.toLowerCase().includes("sex") ) {
+            return  this.getRandomFromArray(this.sex);
+        }
+        if (key.toLowerCase().includes("credi") ) {
+            return this.getRandomFromArray(this.credit_card);
+        }
+        if (key.toLowerCase().includes("card") ) {
+            return this.getRandomFromArray(this.credit_card);
+        }
+        return `RandomData${this.createNumberRand(key,1, 100)}`;
     }
 
     /**
@@ -152,7 +171,7 @@ export class ModelMock<T extends Record<string, any>> {
             for (const key in item) {
                 const fieldType = typeof (item as any)[key];
                 if (fieldType === "number") {
-                    (item as any)[key] = this.createNumberRand();
+                    (item as any)[key] =this.createNumberRand(key);
                 } else if (fieldType === "string") {
                     (item as any)[key] = this.createRandomString(key);
                 } else if (fieldType === "boolean") {
