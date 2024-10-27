@@ -16,7 +16,7 @@
     
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {    
-            "project": "projects/model-mock/ng-package.json",
+            "project": "projects/model-mock/ng-package.json"
           },
           "configurations": {
             "production": {

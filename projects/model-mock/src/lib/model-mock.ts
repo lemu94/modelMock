@@ -34,15 +34,26 @@ export class ModelMock<T extends Record<string, any>> {
      */
     private loadData() {
         forkJoin({
-            names: this.http.get<string[]>('./data/firstname.json'),
-            address: this.http.get<string[]>('./data/adress.json'),
-            cities: this.http.get<string[]>('./data/city.json'),
-            streets: this.http.get<string[]>('./data/street.json'), // Corrected the URL to reflect street data
-        }).subscribe(data => {
-            this.names = data.names;
-            this.cities = data.cities;
-            this.address = data.address;
-            this.streets = data.streets;
+            names: this.http.get<string[]>('assets/data/firstname.json'),
+            address: this.http.get<string[]>('assets/data/adress.json'),
+            cities: this.http.get<string[]>('assets/data/city.json'),
+            streets: this.http.get<string[]>('assets/data/street.json'), 
+        }).subscribe({
+            next :(data)=>{
+                    this.names = data.names;
+                    this.cities = data.cities;
+                    this.address = data.address;
+                    this.streets = data.streets;
+                
+            },
+            error :(error)=>{
+
+                if (error.status === 404) {
+                    console.error('Error 404: file(s) not found. Please place the json files in the assets folder ! ', error);
+                } else {
+                    console.error('Error while loading Data', error);
+                }
+            }
         });
     }
 
@@ -104,15 +115,23 @@ export class ModelMock<T extends Record<string, any>> {
      * @returns string - A randomly generated string based on the key.
      */
     protected createRandomString(key: string): string {
-        if (key.toLowerCase().includes("first") || key.toLowerCase().includes("name") || key.toLowerCase().includes("nom")) {
+        if (key.toLowerCase().includes("first") || 
+            key.toLowerCase().includes("name")  || 
+            key.toLowerCase().includes("nom")) {
             return this.getRandomFromArray(this.names);
-        } else if (key.toLowerCase().includes("last") || key.toLowerCase().includes("surname") || key.toLowerCase().includes("prenom")) {
+        } else 
+        if (key.toLowerCase().includes("last") || 
+                   key.toLowerCase().includes("surname") || 
+                  key.toLowerCase().includes("prenom")) {
             return this.getRandomFromArray(this.names);
-        } else if (key.toLowerCase().includes("street")) {
+        } else 
+        if (key.toLowerCase().includes("street")) {
             return `${this.createNumberRand(1, 999)} ${this.getRandomFromArray(this.streets)}`;
-        } else if (key.toLowerCase().includes("address")) {
+        } else 
+        if (key.toLowerCase().includes("address")) {
             return `${this.createNumberRand(1, 999)} ${this.getRandomFromArray(this.address)}`;
-        } else if (key.toLowerCase().includes("city") || key.toLowerCase().includes("ville")) {
+        } else 
+        if (key.toLowerCase().includes("city") || key.toLowerCase().includes("ville")) {
             return this.getRandomFromArray(this.cities);
         }
         return `RandomData${this.createNumberRand(1, 100)}`;

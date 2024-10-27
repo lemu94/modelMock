@@ -1,12 +1,18 @@
 {
   "name": "model-mock",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "peerDependencies": {
     "@angular/common": "^17.3.0",
     "@angular/core": "^17.3.0"
   },
+  "scripts": {
+    "postinstall": "npx ncp ./src/data ../../assets/data"
+  },
   "dependencies": {
     "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "ncp": "^2.0.0" 
   },
   "sideEffects": false
 }
