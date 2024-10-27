@@ -45,6 +45,7 @@ Pour utiliser la classe **ModelMock**, suivez ces étapes :
      street: string;
      credit_card: string;
    }
+   ```
 3. **Initialisez une instance de ModelMock** 
 Créez une instance de la classe ModelMock en lui passant le modèle de données, puis récupérez des données fictives en appelant la méthode get :
 ```typescript
@@ -66,10 +67,10 @@ const mock = new ModelMock<UserModel>(userData);
 // Récupérez les données fictives
 const mockData = mock.get;
 console.log(mockData);
-
+```
 ## Utilisations possibles
 
-**ModelMock** peut être utilisé pour :
+ ModelMock peut être utilisé pour :
 
 - **Tester des interfaces utilisateur** : Génère des données réalistes, permettant de tester les interfaces sans dépendre d'une base de données.
 - **Génération de rapports de test automatisés** : Crée des scénarios variés pour valider les cas de test.
