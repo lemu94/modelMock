@@ -8,15 +8,16 @@ declare module 'modelMock' {
     export class ModelMock<T extends Record<string, any>> {
         /**
          * Creates an instance of ModelMock.
-         * @param dataModel - The initial data model to use for generating mock data.
+         * @param {T} dataModel - The initial data model to use for generating mock data.
+         * @param {number} [count=5] - The number of mock data items to generate by default
          */
-        constructor(dataModel: T);
+        constructor(dataModel: T,count : number);
 
         /**
          * Retrieves a readonly array of generated mock data.
          * @returns ReadonlyArray<T> - An array of generated mock data based on the data model.
          */
-        get get(): ReadonlyArray<T>;
+        get dataList(): ReadonlyArray<T>;
 
         /**
          * Gets the keys of the data model.

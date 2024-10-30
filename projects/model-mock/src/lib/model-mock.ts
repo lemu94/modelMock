@@ -11,6 +11,7 @@ import { forkJoin } from "rxjs";
  */
 export class ModelMock<T extends Record<string, any>> {
     protected dataModel: T; // The base data model to generate mock data from
+    protected count : number=0;
     private names: string[] = []; // Array to store names fetched from JSON
     private streets: string[] = []; // Array to store streets fetched from JSON
     private address: string[] = []; // Array to store addresses fetched from JSON
@@ -23,10 +24,12 @@ export class ModelMock<T extends Record<string, any>> {
     /**
      * Creates an instance of ModelMock.
      * 
-     * @param dataModel - The initial data model to use for generating mock data.
+     * @param {T} dataModel - The initial data model to use for generating mock data.
+     * @param {number} [count=5] - The number of mock data items to generate by default
      */
-    constructor(dataModel: T) {
+    constructor(dataModel: T, count : number =5) {
         this.dataModel = dataModel;
+        this.count = count;
         this.loadData(); // Load data from JSON files
     }
 
@@ -64,10 +67,10 @@ export class ModelMock<T extends Record<string, any>> {
     /**
      * Retrieves a readonly array of generated mock data.
      * 
-     * @returns ReadonlyArray<T> - An array of generated mock data based on the data model.
+     * @returns {ReadonlyArray<T>} - An array of generated mock data based on the data model.
      */
-    get get(): ReadonlyArray<T> {
-        return this.createListData();
+    get dataList(): ReadonlyArray<T> {
+        return this.createListData(this.count);
     }
 
     /**
@@ -82,7 +85,7 @@ export class ModelMock<T extends Record<string, any>> {
     /**
      * Generates a random date between the year 2000 and the current date.
      * 
-     * @returns Date - A randomly generated date.
+     * @returns {Date} - A randomly generated date.
      */
     protected createRandomDate(): Date {
         const start = new Date(2000, 0, 1).getTime();
@@ -92,10 +95,10 @@ export class ModelMock<T extends Record<string, any>> {
 
     /**
      * Generates a random number between the specified minimum and maximum values.
-     * @param key -The key to determine the type of random string to generate
-     * @param min - The minimum value (inclusive).
-     * @param max - The maximum value (inclusive).
-     * @returns number - A randomly generated number.
+     * @param {string} key -The key to determine the type of random string to generate
+     * @param {number} min - The minimum value (inclusive).
+     * @param {number} max - The maximum value (inclusive).
+     * @returns {number} - A randomly generated number.
      */
     protected createNumberRand(key : string,min: number = 0, max: number = 100000): number {
         
@@ -110,8 +113,8 @@ export class ModelMock<T extends Record<string, any>> {
     /**
      * Retrieves a random string from the provided array.
      * 
-     * @param array - An array of strings to choose from.
-     * @returns string - A randomly selected string from the array.
+     * @param {string[]} array - An array of strings to choose from.
+     * @returns {string} - A randomly selected string from the array.
      */
     protected getRandomFromArray(array: string[]): string {
         return array[Math.floor(Math.random() * array.length)];
@@ -121,8 +124,8 @@ export class ModelMock<T extends Record<string, any>> {
      * Creates a random string based on the key provided.
      * It generates realistic values for names, addresses, cities, etc.
      * 
-     * @param key - The key to determine the type of random string to generate.
-     * @returns string - A randomly generated string based on the key.
+     * @param {string} key - The key to determine the type of random string to generate.
+     * @returns {string} - A randomly generated string based on the key.
      */
     protected createRandomString(key: string): string {
         if (key.toLowerCase().includes("first") || 
@@ -159,25 +162,25 @@ export class ModelMock<T extends Record<string, any>> {
     /**
      * Creates a list of mock data items based on the data model.
      * 
-     * @param count - The number of mock data items to generate (default is 5).
-     * @returns T[] - An array of generated mock data items.
+     * @param {number} count - The number of mock data items to generate (default is 5).
+     * @returns {T[]} - An array of generated mock data items.
      */
-    protected createListData(count: number = 5): T[] {
+    protected createListData(count:number): T[] {
         const dataList: T[] = [];
 
         for (let i = 0; i < count; i++) {
             const item = { ...this.dataModel } as T;
 
             for (const key in item) {
-                const fieldType = typeof (item as any)[key];
+                const fieldType = typeof item[key];
                 if (fieldType === "number") {
-                    (item as any)[key] =this.createNumberRand(key);
+                    (item[key] as number) =this.createNumberRand(key);
                 } else if (fieldType === "string") {
-                    (item as any)[key] = this.createRandomString(key);
+                    (item[key] as string) = this.createRandomString(key);
                 } else if (fieldType === "boolean") {
-                    (item as any)[key] = Math.random() < 0.5;
+                    (item[key] as boolean) = Math.random() < 0.5;
                 } else if ((item as any)[key] instanceof Date) {
-                    (item as any)[key] = this.createRandomDate();
+                    (item[key] as Date) = this.createRandomDate();
                 }
             }
 

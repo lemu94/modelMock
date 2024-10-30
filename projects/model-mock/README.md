@@ -64,7 +64,7 @@ const userData: UserModel = {
 const mock = new ModelMock<UserModel>(userData);
 
 // Récupérez les données fictives
-const mockData = mock.get;
+const mockData = mock.dataList;
 console.log(mockData);
 
 ## Utilisations possibles
