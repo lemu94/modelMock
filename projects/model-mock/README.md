@@ -1,40 +1,41 @@
 # ModelMock - Mock Data Generator
 
-**ModelMock** est une classe générique conçue pour générer des données fictives basées sur un modèle de données fourni. Elle utilise des fichiers JSON contenant des noms, des adresses, des villes, des rues et des numéros de cartes de crédit pour remplir les champs du modèle, ce qui permet de créer des jeux de données réalistes pour les tests et le prototypage.
+**ModelMock** is a generic class designed to generate mock data based on a provided data model. It uses JSON files containing names, addresses, cities, streets, and credit card numbers to populate the model fields, creating realistic datasets for testing and prototyping.
 
-## Fonctionnalités
+## Features
 
-- **Injection de données réalistes** : ModelMock charge des données depuis des fichiers JSON, incluant des noms, adresses, villes, rues, etc.
-- **Génération aléatoire** : Crée des valeurs aléatoires pour différents types de données (`string`, `number`, `boolean`, `Date`).
-- **Flexible et extensible** : Compatible avec n’importe quel modèle de données.
+- **Realistic Data Injection** : ModelMock loads data from JSON files, including names, addresses, cities, streets, etc.
+- **Random generation** : Creates random values ​​for different data types (`string`, `number`, `boolean`, `Date`).
+- **Flexible and extensible** :Compatible with any data model.
 
-## Prérequis
+## Prerequisites
 
-Pour utiliser **ModelMock**, vous devez vous assurer : que 
+To use **ModelMock** you need to make sure:
 
-**HttpClient** est bien configuré dans votre application Angular. Vous pouvez l’ajouter dans votre fichier `app.module.ts` ou `app.config.ts` (en mode standalone).
+**HttpClient** is configured in your Angular application. You can add it in your `app.module.ts` or `app.config.ts` file (in standalone mode).
 
 
-Assurez-vous d'avoir placé les fichiers JSON suivants dans le dossier `assets/data` de votre application :
+Make sure you have placed the following JSON files in your application's `assets/data` folder:
 
-- `firstname.json` - Contient des noms de personnes
-- `address.json` - Contient des adresses
-- `city.json` - Contient des villes
-- `street.json` - Contient des noms de rues
-- `creditcard.json` - Contient des numéros de cartes de crédit fictifs
+- `firstname.json` - Contains people's names
+- `address.json` - Contains addresses
+- `city.json` - Contains cities
+- `street.json` - Contains street names
+- `creditcard.json` - Contains fictitious credit card numbers
 
-Vous pouvez télécharger ces fichiers depuis [notre dépôt Git](https://github.com/lemu94/modelMock/tree/master/projects/model-mock/src/data) et les placer dans `assets/data` de votre projet.
+You can download these files from [our Git repository](https://github.com/lemu94/modelMock/tree/master/projects/model-mock/src/data) and place them in `assets/data` of your project.
 
 ## Installation
 
-1. Installez la librairie dans votre projet Angular :
+1. Install the library in your Angular project:
 
    ```bash
    npm install model-mock
 
-Pour utiliser la classe **ModelMock**, suivez ces étapes :
+To use the **ModelMock** class, follow these steps:
 
-2. **Créez un modèle de données** - Définissez un modèle de données qui représentera la structure de votre objet. Par exemple :
+2. **Create a data model** - Define a data model that will represent the structure of your object. For example:
+
 
    ```typescript
    interface UserModel {
@@ -45,12 +46,13 @@ Pour utiliser la classe **ModelMock**, suivez ces étapes :
      street: string;
      credit_card: string;
    }
-3. **Initialisez une instance de ModelMock** 
-Créez une instance de la classe ModelMock en lui passant le modèle de données, puis récupérez des données fictives en appelant la méthode get :
+3. **Initialize a ModelMock instance**
+Create an instance of the ModelMock class by passing it the model data, then retrieve mock data by calling the get method:
+
 ```typescript
 import { ModelMock } from "model-mock";
 
-// Exemple de modèle utilisateur vide
+// Example of an empty user model
 const userData: UserModel = {
   name: "",
   age: 0,
@@ -60,23 +62,24 @@ const userData: UserModel = {
   credit_card: ""
 };
 
-// Créez une instance de ModelMock
+// Create an instance of ModelMock
 const mock = new ModelMock<UserModel>(userData);
 
-// Récupérez les données fictives
+// Retrieve the dummy data
 const mockData = mock.dataList;
 console.log(mockData);
 
-## Utilisations possibles
+## Possible uses
 
-**ModelMock** peut être utilisé pour :
+**ModelMock** can be used for:
 
-- **Tester des interfaces utilisateur** : Génère des données réalistes, permettant de tester les interfaces sans dépendre d'une base de données.
-- **Génération de rapports de test automatisés** : Crée des scénarios variés pour valider les cas de test.
-- **Prototypage rapide** : Fournit des données cohérentes pour les démonstrations et les phases de développement initiales.
+- **Test user interfaces**: Generates realistic data, allowing to test interfaces without depending on a database.
 
-## Méthodes principales
+- **Automated Test Report Generation**: Creates varied scenarios to validate test cases.
+- **Rapid Prototyping**: Provides consistent data for demonstrations and early development phases.
 
-- **`createRandomString(key: string)`** : Génère une chaîne de caractères réaliste en fonction du type de champ (nom, adresse, ville, etc.).
-- **`createRandomDate()`** : Crée une date aléatoire comprise entre l'année 2000 et la date actuelle.
-- **`createListData(count: number)`** : Génère un tableau d'éléments de données fictives selon le modèle de données fourni.
+## Main methods
+
+- **`createRandomString(key: string)`** : Generates a realistic string based on the field type (name, address, city, etc.).
+- **`createRandomDate()`** : Creates a random date between the year 2000 and the current date.
+- **`createListData(count: number)`** : Generates an array of dummy data items based on the provided data model.
