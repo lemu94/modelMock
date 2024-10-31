@@ -46,6 +46,7 @@ To use the **ModelMock** class, follow these steps:
      street: string;
      credit_card: string;
    }
+   ```
 3. **Initialize a ModelMock instance**
 Create an instance of the ModelMock class by passing it the model data, then retrieve mock data by calling the get method:
 
@@ -68,7 +69,7 @@ const mock = new ModelMock<UserModel>(userData);
 // Retrieve the dummy data
 const mockData = mock.dataList;
 console.log(mockData);
-
+```
 ## Possible uses
 
 **ModelMock** can be used for:
