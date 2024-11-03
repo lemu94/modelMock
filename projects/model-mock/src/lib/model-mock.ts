@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { forkJoin } from "rxjs";
+import { mockData } from "./mock-data";
 
 /**
  * A generic class for generating mock data based on a provided data model.
@@ -12,12 +13,12 @@ import { forkJoin } from "rxjs";
 export class ModelMock<T extends Record<string, any>> {
     protected dataModel: T; // The base data model to generate mock data from
     protected count : number=0;
-    private names: string[] = []; // Array to store names fetched from JSON
-    private streets: string[] = []; // Array to store streets fetched from JSON
-    private address: string[] = []; // Array to store addresses fetched from JSON
-    private cities : string[] = []; // Predefined array of cities
+    private names: string[] =  mockData.names;; // Array to store names fetched from JSON
+    private streets: string[] = mockData.streets; // Array to store streets fetched from JSON
+    private address: string[] = mockData.address; // Array to store addresses fetched from JSON
+    private cities : string[] = mockData.cities; // Predefined array of cities
     private sex : string[]=['f','m'];
-    private credit_card : string[]=[];
+    private credit_card : string[]=mockData.credit_card;
 
     http = inject(HttpClient); // Injecting HttpClient for HTTP requests
 
@@ -30,39 +31,9 @@ export class ModelMock<T extends Record<string, any>> {
     constructor(dataModel: T, count : number =5) {
         this.dataModel = dataModel;
         this.count = count;
-        this.loadData(); // Load data from JSON files
     }
 
-    /**
-     * Loads data from JSON files into the class properties.
-     * Utilizes forkJoin to handle multiple HTTP requests concurrently.
-     */
-    private loadData() {
-        forkJoin({
-            names: this.http.get<string[]>('assets/data/firstname.json'),
-            address: this.http.get<string[]>('assets/data/adress.json'),
-            cities: this.http.get<string[]>('assets/data/city.json'),
-            streets: this.http.get<string[]>('assets/data/street.json'), 
-            credit_card : this.http.get<string[]>('assets/data/creditcard.json'), 
-        }).subscribe({
-            next :(data)=>{
-                    this.names = data.names;
-                    this.cities = data.cities;
-                    this.address = data.address;
-                    this.streets = data.streets;
-                    this.credit_card=data.credit_card;
-                
-            },
-            error :(error)=>{
-
-                if (error.status === 404) {
-                    console.error('Error 404: file(s) not found. Please place the json files in the assets folder and in subfolder "Data" ! ', error);
-                } else {
-                    console.error('Error while loading Data', error);
-                }
-            }
-        });
-    }
+    
 
     /**
      * Retrieves a readonly array of generated mock data.
