@@ -1,6 +1,6 @@
 # ModelMock - Mock Data Generator
 
-**ModelMock** is a generic class designed to generate mock data based on a provided data model. It uses data containing names, addresses, cities, streets, and credit card numbers to populate the model fields, creating realistic datasets for testing and prototyping.
+**ModelMock** is a generic class designed to generate mock data based on a provided data model. It uses data containing names, addresses, cities, streets, job, colors,email , credit card numbers and others to populate the model fields, creating realistic datasets for testing and prototyping.
 
 ## Features
 
@@ -68,6 +68,6 @@ console.log(mockData);
 
 ## Main methods
 
-- **`createRandomString(key: string)`** : Generates a realistic string based on the field type (name, address, city, etc.).
-- **`createRandomDate()`** : Creates a random date between the year 2000 and the current date.
-- **`createListData(count: number)`** : Generates an array of dummy data items based on the provided data model.
+- **`dataList`** : Retrieves a  array of generated mock data.
+- **`dataListReadOnly`** : Retrieves a readonly array of generated mock data..
+- **`getKeys`** : Generates an array of keys from the data model.

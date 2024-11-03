@@ -15,6 +15,8 @@ export class ModelMock<T extends Record<string, any>> {
     private streets: string[] = mockData.streets; // Array to store streets fetched from JSON
     private address: string[] = mockData.address; // Array to store addresses fetched from JSON
     private cities : string[] = mockData.cities; // Predefined array of cities
+    private code_colors : string []= mockData.code_color;
+    private job : string []=mockData.job;
     private sex : string[]=['f','m'];
     private credit_card : string[]=mockData.credit_card;
 
@@ -33,11 +35,25 @@ export class ModelMock<T extends Record<string, any>> {
     
 
     /**
+     * Retrieves a  array of generated mock data.
+     * 
+     * @returns {Array<T>} - An array of generated mock data based on the data model.
+     * @example
+     * new ModelMock(new Person(),50).dataList;
+     */
+    get dataList(): Array<T> {
+        return this.createListData(this.count);
+    }
+
+    
+    /**
      * Retrieves a readonly array of generated mock data.
      * 
      * @returns {ReadonlyArray<T>} - An array of generated mock data based on the data model.
+     * @example
+     * new ModelMock(new Person(),50).dataListReadOnly;
      */
-    get dataList(): ReadonlyArray<T> {
+    get dataListReadOnly(): ReadonlyArray<T> {
         return this.createListData(this.count);
     }
 
@@ -75,7 +91,20 @@ export class ModelMock<T extends Record<string, any>> {
             min=10;
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
+        if(key.toLowerCase().includes('year')){
+            max=2024;
+            min=1950;
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    protected createRandomEmail(names : string=""): string {
+        const domains = ['example.com', 'test.com', 'demo.com'];
+        let name = (names==="")? this.getRandomFromArray(this.names): names;
+            name = name.toLowerCase().replace(/\s+/g, '');
+        const domain = this.getRandomFromArray(domains);
+        return `${name}@${domain}`;
     }
 
     /**
@@ -84,7 +113,7 @@ export class ModelMock<T extends Record<string, any>> {
      * @param {string[]} array - An array of strings to choose from.
      * @returns {string} - A randomly selected string from the array.
      */
-    protected getRandomFromArray(array: string[]): string {
+    protected getRandomFromArray(array: string[]): string  {
         return array[Math.floor(Math.random() * array.length)];
     }
 
@@ -99,31 +128,39 @@ export class ModelMock<T extends Record<string, any>> {
         if (key.toLowerCase().includes("first") || 
             key.toLowerCase().includes("name")  || 
             key.toLowerCase().includes("nom")) {
+            return this.getRandomFromArray(this.names) ;
+        } else 
+        if (key.toLowerCase().includes("last")    || 
+            key.toLowerCase().includes("surname") || 
+            key.toLowerCase().includes("prenom")) {
             return this.getRandomFromArray(this.names);
         } else 
-        if (key.toLowerCase().includes("last") || 
-                   key.toLowerCase().includes("surname") || 
-                  key.toLowerCase().includes("prenom")) {
-            return this.getRandomFromArray(this.names);
-        } else 
-        if (key.toLowerCase().includes("street")) {
+        if (key.toLowerCase().includes("street") || key.toLowerCase().includes("rue")) {
             return `${this.getRandomFromArray(this.streets)}`;
         } else 
         if (key.toLowerCase().includes("address") || key.toLowerCase().includes("adress")) {
             return `${this.getRandomFromArray(this.address)}`;
         } else 
-        if (key.toLowerCase().includes("city") || key.toLowerCase().includes("ville")) {
-            return this.getRandomFromArray(this.cities);
+        if (key.toLowerCase().includes("city")   || key.toLowerCase().includes("vill") ||
+            key.toLowerCase().includes("cities") || key.toLowerCase().includes("ville")) {
+            return this.getRandomFromArray(this.cities) ;
         }
         if (key.toLowerCase().includes("sex") ) {
             return  this.getRandomFromArray(this.sex);
         }
-        if (key.toLowerCase().includes("credi") ) {
+        if (key.toLowerCase().includes("credi") || key.toLowerCase().includes("card") ) {
             return this.getRandomFromArray(this.credit_card);
         }
-        if (key.toLowerCase().includes("card") ) {
-            return this.getRandomFromArray(this.credit_card);
+        if (key.toLowerCase().includes("color") || key.toLowerCase().includes("couleur")  ) {
+            return this.getRandomFromArray(this.code_colors);
         }
+        if (key.toLowerCase().includes("job") || key.toLowerCase().includes("emploi") ||
+            key.toLowerCase().includes("taf") ||  key.toLowerCase().includes("occupation") ) {
+            return this.getRandomFromArray(this.job);
+        }
+        if (key.toLowerCase().includes("email") || key.toLowerCase().includes("courriel")) {
+            return this.createRandomEmail();
+         }
         return `RandomData${this.createNumberRand(key,1, 100)}`;
     }
 
