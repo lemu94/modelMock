@@ -1,6 +1,4 @@
-import { HttpClient } from "@angular/common/http";
 import { inject } from "@angular/core";
-import { forkJoin } from "rxjs";
 import { mockData } from "./mock-data";
 
 /**
@@ -13,14 +11,13 @@ import { mockData } from "./mock-data";
 export class ModelMock<T extends Record<string, any>> {
     protected dataModel: T; // The base data model to generate mock data from
     protected count : number=0;
-    private names: string[] =  mockData.names;; // Array to store names fetched from JSON
+    private names: string[] =  mockData.names; // Array to store names fetched from JSON
     private streets: string[] = mockData.streets; // Array to store streets fetched from JSON
     private address: string[] = mockData.address; // Array to store addresses fetched from JSON
     private cities : string[] = mockData.cities; // Predefined array of cities
     private sex : string[]=['f','m'];
     private credit_card : string[]=mockData.credit_card;
 
-    http = inject(HttpClient); // Injecting HttpClient for HTTP requests
 
     /**
      * Creates an instance of ModelMock.
