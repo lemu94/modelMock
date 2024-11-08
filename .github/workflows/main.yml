@@ -34,4 +34,10 @@ jobs:
       - name: Build library
         run: npm run build  # Assure-toi que `npm run build` génère le code pour la publication
 
+      - name: Publish to npm
+        if: success()
+        run: npm publish
+        env: 
+           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
 
