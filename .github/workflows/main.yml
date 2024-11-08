@@ -36,7 +36,7 @@ jobs:
 
       - name: Publish to npm
         if: success()
-        run: npm publish
+        run: npm publish --access public
         env: 
            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
