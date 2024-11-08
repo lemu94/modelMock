@@ -3,7 +3,7 @@ name: lanche test
 on:
   push:
     branches:
-      - main  # Déclenche le workflow uniquement pour les pushs vers la branche principale
+      - master  # Déclenche le workflow uniquement pour les pushs vers la branche principale
 
 jobs:
   build-and-publish:
@@ -16,16 +16,28 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Choisissez la version de Node.js compatible avec votre projet
+          node-version: '18.13'  # Choisissez la version de Node.js compatible avec votre projet
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm install  # Installe toutes les dépendances nécessaires
-
+        
       - name: Run tests
-        run: npm test  # Exécute les tests; assurez-vous que `npm test` est configuré dans votre package.json
+        env: 
+           CHROME_BIN: google-chrome-stable
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          # Lance les tests en mode headless sans sandbox
+          npm run test -- --browsers ChromeHeadlessNoSandbox --watch=false
 
       - name: Build library
         run: npm run build  # Assure-toi que `npm run build` génère le code pour la publication
+
+      - name: Publish to npm
+        if: success()
+        run: npm publish
+        env: 
+           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 
