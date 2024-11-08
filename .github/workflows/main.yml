@@ -21,14 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install  # Installe toutes les dépendances nécessaires
-      - name: Verify NPM_TOKEN presence
-        run: |
-          if [ -z "${{ secrets.NPM_TOKEN.NPM_TOKEN }}" ]; then 
-             echo "NPM_TOKEN is not set!";
-             exit 1;
-          else 
-             echo "NPM_TOKEN is set.";
-          fi
+        
       - name: Run tests
         env: 
            CHROME_BIN: google-chrome-stable
@@ -45,6 +38,6 @@ jobs:
         if: success()
         run: npm publish
         env: 
-           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 
