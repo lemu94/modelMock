@@ -3,7 +3,7 @@ name: lanche test
 on:
   push:
     branches:
-      - main  # Déclenche le workflow uniquement pour les pushs vers la branche principale
+      - master  # Déclenche le workflow uniquement pour les pushs vers la branche principale
 
 jobs:
   build-and-publish:
