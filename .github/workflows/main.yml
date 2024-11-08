@@ -1,0 +1,31 @@
+name: lanche test
+
+on:
+  push:
+    branches:
+      - main  # Déclenche le workflow uniquement pour les pushs vers la branche principale
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Permet d'accéder aux fichiers du dépôt
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Choisissez la version de Node.js compatible avec votre projet
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm install  # Installe toutes les dépendances nécessaires
+
+      - name: Run tests
+        run: npm test  # Exécute les tests; assurez-vous que `npm test` est configuré dans votre package.json
+
+      - name: Build library
+        run: npm run build  # Assure-toi que `npm run build` génère le code pour la publication
+
+
