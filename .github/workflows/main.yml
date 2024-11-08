@@ -23,7 +23,7 @@ jobs:
         run: npm install  # Installe toutes les dépendances nécessaires
       - name: Verify NPM_TOKEN presence
         run: |
-          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then 
+          if [ -z "${{ secrets.NPM_TOKEN.NPM_TOKEN }}" ]; then 
              echo "NPM_TOKEN is not set!";
              exit 1;
           else 
