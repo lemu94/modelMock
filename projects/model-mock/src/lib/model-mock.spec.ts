@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { ModelMock } from './model-mock'; // Adjust the import path as necessary
+import { ModelMock } from './model-mock'; 
 
-// Sample data model interface
 interface SampleDataModel {
   firstName: string;
   lastName: string;
@@ -12,7 +11,6 @@ interface SampleDataModel {
 
 describe('ModelMock', () => {
   let service: ModelMock<SampleDataModel>;
-   // Create an instance of ModelMock with a sample data model
    const sampleModel: SampleDataModel = {
     firstName: '',
     lastName: '',
@@ -21,10 +19,7 @@ describe('ModelMock', () => {
     sexe : ""
   };
   beforeEach(() => {
-    // Initialize TestBed if you need Angular testing utilities; otherwise, you can skip this.
     TestBed.configureTestingModule({});
-    
- 
     service = new ModelMock<SampleDataModel>(sampleModel,10);
   });
 
