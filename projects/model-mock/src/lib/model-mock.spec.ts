@@ -6,6 +6,8 @@ interface SampleDataModel {
   firstName: string;
   lastName: string;
   age: number;
+  email : string;
+  sexe : string
 }
 
 describe('ModelMock', () => {
@@ -15,6 +17,8 @@ describe('ModelMock', () => {
     firstName: '',
     lastName: '',
     age: 0,
+    email : "",
+    sexe : ""
   };
   beforeEach(() => {
     // Initialize TestBed if you need Angular testing utilities; otherwise, you can skip this.
@@ -37,7 +41,7 @@ describe('ModelMock', () => {
   it('should generate string for lastName',()=>{
     expect(typeof service.dataList[0].lastName).toBe("string");
   })
-  it('should generate string for age',()=>{
+  it('should generate number for age',()=>{
     expect(typeof service.dataList[0].age).toBe("number");
   })
   it('should be generate zero data',()=>{
@@ -47,6 +51,13 @@ describe('ModelMock', () => {
   it('should generate non-undefined strings for firstName and lastName', () => {
     expect(service.dataList[0].firstName).not.toBe("");
     expect(service.dataList[0].lastName).not.toBe('');
+  });
+  it('should generate string with @ for email', () => {
+    expect(service.dataList[0].email.includes("@")).toBeTrue();
+  });
+
+  it('should generate "f" or "m"  for sex', () => {
+    expect(["f","m"].includes(service.dataList[0].sexe)).toBeTrue();
   });
 
 });
