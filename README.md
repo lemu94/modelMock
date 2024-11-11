@@ -10,7 +10,6 @@
 
 
 
-You can download these files from [our Git repository](https://github.com/lemu94/modelMock/tree/master/projects/model-mock/src/data) and place them in `assets/data` of your project.
 
 ## Installation
 
