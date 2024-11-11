@@ -38,8 +38,8 @@ jobs:
       - name: Build library
         run: npm run build  # Assure-toi que `npm run build` génère le code pour la publication
 
-      - name: Bump version
-        run: npm version patch -m "chore(release):bump version to %s"
+      #- name: Bump version
+      #  run: npm version patch -m "chore(release):bump version to %s"
 
 
       - name: Publish to npm
