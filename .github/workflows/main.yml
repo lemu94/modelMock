@@ -18,6 +18,10 @@ jobs:
         with:
           node-version: '18.13'  # Choisissez la version de Node.js compatible avec votre projet
           registry-url: 'https://registry.npmjs.org'
+          
+      - name: Configure npm authentication
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
 
       - name: Install dependencies
         run: npm install  # Installe toutes les dépendances nécessaires
@@ -33,6 +37,10 @@ jobs:
 
       - name: Build library
         run: npm run build  # Assure-toi que `npm run build` génère le code pour la publication
+
+      - name: Bump version
+        run: npm version patch -m "chore(release):bump version to %s"
+
 
       - name: Publish to npm
         if: success()
